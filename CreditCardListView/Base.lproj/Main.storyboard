@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--카드 헤택 구성-->
+        <!--카드 헤택 추천-->
         <scene sceneID="fIE-yH-eCd">
             <objects>
                 <tableViewController id="0kG-aP-Vaw" customClass="CardListViewController" customModule="CreditCardListView" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,7 +34,7 @@
                             <outlet property="delegate" destination="0kG-aP-Vaw" id="3up-3Q-QIK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="카드 헤택 구성" id="ARK-cw-SKG"/>
+                    <navigationItem key="navigationItem" title="카드 헤택 추천" id="ARK-cw-SKG"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8H-tR-3U8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,7 +43,7 @@
         <!--카드 혜택 상세-->
         <scene sceneID="NWF-aq-uCJ">
             <objects>
-                <viewController id="KlI-lc-udO" customClass="CardDetailViewController" customModule="CreditCardListView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CardDetailViewController" id="KlI-lc-udO" customClass="CardDetailViewController" customModule="CreditCardListView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pKD-N8-mO3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -193,6 +193,9 @@
             <point key="canvasLocation" x="-866" y="65"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="hxM-F2-BSA"/>
+    </designables>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

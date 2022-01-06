@@ -15,6 +15,7 @@
 		A9178E172785DB7D00DDDE31 /* CardListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9178E152785DB7D00DDDE31 /* CardListCell.xib */; };
 		A9178E5D2785E76B00DDDE31 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9178E5C2785E76B00DDDE31 /* CardDetailViewController.swift */; };
 		A9178E5F2785EC1300DDDE31 /* money.json in Resources */ = {isa = PBXBuildFile; fileRef = A9178E5E2785EC1300DDDE31 /* money.json */; };
+		A95226652786B720009D4081 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A95226642786B720009D4081 /* GoogleService-Info.plist */; };
 		A9BB2AEB2785C7DF00D6DF4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB2AEA2785C7DF00D6DF4D /* AppDelegate.swift */; };
 		A9BB2AED2785C7DF00D6DF4D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB2AEC2785C7DF00D6DF4D /* SceneDelegate.swift */; };
 		A9BB2AF22785C7DF00D6DF4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9BB2AF02785C7DF00D6DF4D /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		A9178E152785DB7D00DDDE31 /* CardListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardListCell.xib; sourceTree = "<group>"; };
 		A9178E5C2785E76B00DDDE31 /* CardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		A9178E5E2785EC1300DDDE31 /* money.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = money.json; sourceTree = "<group>"; };
+		A95226642786B720009D4081 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9BB2AE72785C7DF00D6DF4D /* CreditCardListView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCardListView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9BB2AEA2785C7DF00D6DF4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9BB2AEC2785C7DF00D6DF4D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				A9BB2AF32785C7E000D6DF4D /* Assets.xcassets */,
 				A9BB2AF52785C7E000D6DF4D /* LaunchScreen.storyboard */,
 				A9BB2AF82785C7E000D6DF4D /* Info.plist */,
+				A95226642786B720009D4081 /* GoogleService-Info.plist */,
 			);
 			path = CreditCardListView;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				A9178E5F2785EC1300DDDE31 /* money.json in Resources */,
 				A9BB2AF22785C7DF00D6DF4D /* Main.storyboard in Resources */,
 				A9178E172785DB7D00DDDE31 /* CardListCell.xib in Resources */,
+				A95226652786B720009D4081 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
