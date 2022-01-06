@@ -8,9 +8,12 @@
 import UIKit
 import Kingfisher
 import FirebaseDatabase
+import FirebaseFirestore
 
 class CardListViewController: UITableViewController{
-    var ref: DatabaseReference! // Firebase realtime reference를 가져올 수 있는 값
+    // var ref: DatabaseReference! // Firebase realtime reference를 가져올 수 있는 값
+    var db = Firestore.firestore()
+    
     var creditCardList: [CreditCard] = []
     
     override func viewDidLoad() {
@@ -19,27 +22,51 @@ class CardListViewController: UITableViewController{
         // UITableView Cell Register
         let nibName = UINib(nibName: "CardListCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: "CardListCell")
-        
-        ref = Database.database().reference()
-        
-        // ref가 value 값을 바라보고 그 다음에는 snapshot을 이용해서 데이터를 불러옴
-        ref.observe(.value) { snapshot in
-            guard let value = snapshot.value as? [String: [String: Any]] else { return }
+       
+        // realtime database 읽기
+//            ref = Database.database().reference()
+//
+//            // ref가 value 값을 바라보고 그 다음에는 snapshot을 이용해서 데이터를 불러옴
+//            ref.observe(.value) { snapshot in
+//                guard let value = snapshot.value as? [String: [String: Any]] else { return }
+//
+//                // json decoding
+//                do{
+//                    let jsonData = try JSONSerialization.data(withJSONObject: value)
+//                    let carData = try JSONDecoder().decode([String: CreditCard].self, from: jsonData)
+//                    let cardList = Array(carData.values)
+//                    self.creditCardList = cardList.sorted { $0.rank < $1.rank } // 순위 순서대로 보여줌
+//
+//                    // table view reload
+//                    // 메인 스레드에 해당 액션을 넣어주는 것
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                    }
+//                } catch let error {
+//                    print("ERROR JSON parsing \(error.localizedDescription)")
+//                }
+//            }
+ 
+        // Firestore 읽기
+        db.collection("creditCardList").addSnapshotListener { snapshot, error in
+            guard let documents = snapshot?.documents else {
+                print("ERROR Firestore fetching document \(String(describing: error))")
+                return
+            }
             
-            // json decoding
-            do{
-                let jsonData = try JSONSerialization.data(withJSONObject: value)
-                let carData = try JSONDecoder().decode([String: CreditCard].self, from: jsonData)
-                let cardList = Array(carData.values)
-                self.creditCardList = cardList.sorted { $0.rank < $1.rank } // 순위 순서대로 보여줌
-                
-                // table view reload
-                // 메인 스레드에 해당 액션을 넣어주는 것
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            self.creditCardList = documents.compactMap { doc -> CreditCard? in
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: doc.data(), options: [])
+                    let creditCard = try JSONDecoder().decode(CreditCard.self, from: jsonData)
+                    return creditCard
+                } catch let error {
+                    print("ERROR JSON Parshing \(error)")
+                    return nil
                 }
-            } catch let error {
-                print("ERROR JSON parsing \(error.localizedDescription)")
+            }.sorted{ $0.rank < $1.rank } // 랭크 순 정렬
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
@@ -76,14 +103,26 @@ class CardListViewController: UITableViewController{
         detailViewController.promotionDetail = creditCardList[indexPath.row].promotionDetail
         self.show(detailViewController, sender: nil)
         
-        // 특정 key의 값이 cardID와 같은 객체를 찾아서 snapshot으로 찍는 것
-        let cardID = creditCardList[indexPath.row].id
-        ref.queryOrdered(byChild: "id").queryEqual(toValue: cardID).observe(.value) {[weak self] snapshot in
-            guard let self = self,
-                  let value = snapshot.value as? [String: [String: Any]],
-                  let key = value.keys.first else { return }
+        // realtime database 쓰기
+//        // 특정 key의 값이 cardID와 같은 객체를 찾아서 snapshot으로 찍는 것
+          let cardID = creditCardList[indexPath.row].id
+//        ref.queryOrdered(byChild: "id").queryEqual(toValue: cardID).observe(.value) {[weak self] snapshot in
+//            guard let self = self,
+//                  let value = snapshot.value as? [String: [String: Any]],
+//                  let key = value.keys.first else { return }
+//
+//            self.ref.child("\(key)/isSelected").setValue(true)
+//        }
+//
+        
+        // Firestore 쓰기
+        db.collection("creditCardList").whereField("id", isEqualTo: cardID).getDocuments { snapshot, _  in
+            guard let document = snapshot?.documents.first else {
+                print("ERROR Firestore fetching document")
+                return
+            }
             
-            self.ref.child("\(key)/isSelected").setValue(true)
+            document.reference.updateData(["isSelected": true])
         }
     }
     
@@ -95,13 +134,25 @@ class CardListViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // edigingStyle이 삭제인 경우
         if editingStyle == .delete {
-            let cardID = creditCardList[indexPath.row].id
-            ref.queryOrdered(byChild: "id").queryEqual(toValue: cardID).observe(.value) { [weak self] snapshot in
-                guard let self = self,
-                      let value = snapshot.value as? [String: [String: Any]],
-                      let key = value.keys.first else { return }
+            
+            // realtime database 삭제
+              let cardID = creditCardList[indexPath.row].id
+//            ref.queryOrdered(byChild: "id").queryEqual(toValue: cardID).observe(.value) { [weak self] snapshot in
+//                guard let self = self,
+//                      let value = snapshot.value as? [String: [String: Any]],
+//                      let key = value.keys.first else { return }
+//
+//                self.ref.child(key).removeValue()
+//            }
+            
+            // firestore 삭제
+            db.collection("creditCardList").whereField("id", isEqualTo: cardID).getDocuments { snapshot, _ in
+                guard let document = snapshot?.documents.first else {
+                    print("ERROR")
+                    return
+                }
                 
-                self.ref.child(key).removeValue()
+                document.reference.delete()
             }
         }
     }
