@@ -1,0 +1,6 @@
+framework module Pods_CreditCardListView_CreditCardListViewUITests {
+  umbrella header "Pods-CreditCardListView-CreditCardListViewUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
