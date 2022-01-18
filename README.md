@@ -51,7 +51,40 @@ Database에 저장된 카드 정보를 불러와 여러 개의 신용카드를 �
     ```
 >CardDetailViewController.swift
 * 신용카드 셀을 탭했을 때 넘어가는 카드 혜택 상세정보 화면
+  * lottie 적용
+    ```swift
+     override func viewDidLoad() {
+          super.viewDidLoad()
 
+          let animationView = AnimationView(name: "money") // 프로젝트에 넣어준 json 파일 이름
+          lottieView.contentMode = .scaleAspectFit
+          lottieView.addSubview(animationView)
+          animationView.frame = lottieView.bounds
+          animationView.loopMode = .loop
+          animationView.play()
+      }
+    ```
+  * firebase에서 데이터를 받았을 때 label에 표현될 내용 연결
+    ```swift
+       var promotionDetail: PromotionDetail?
+
+       override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+
+          guard  let detail = promotionDetail else { return }
+
+          lblTitle.text = """
+              \(detail.companyName)카드 쓰면
+              \(detail.amount)만큼 드려요
+              """
+
+          lblPeriod.text = detail.period
+          lblCondition.text = detail.condition
+          lblBenefitCondition.text = detail.benefitCondition
+          lblBenefitDetail.text = detail.benefitDetail
+          lblBenefitDate.text = detail.benefitDate
+      }
+    ``` 
 >CreditCard.swift
 * 신용카드 정보 및 상세 혜택 정보가 담긴 객체를 생성한다.
   * 읽을 때는 json decoding이 필요하고 쓸 때는 json encoding이 필요하기 때문에 codable을 상속하는 객체로 만든다.
